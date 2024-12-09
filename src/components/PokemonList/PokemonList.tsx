@@ -1,34 +1,14 @@
 import { useEffect, useState } from "react";
 
-import { Pokemon } from "./Pokemon/Pokemon";
-import { MainBackData, PokemonsList } from "../../types";
+import { PokemonCard } from "./PokemonCard/PokemonCard";
+import { MainBackData, PokemonsList, Pokemon } from "../../types";
 import { API_URL } from "../../api/urls";
 
 import "./index.scss";
 
-interface PokemonTypesDetail {
-  name: string;
-  url: string;
-}
-
-interface PokemonTypes {
-  slot: number;
-  type: PokemonTypesDetail;
-}
-
-interface PokemonImage {
-  front_default: string;
-}
-
-interface PokemonItem {
-  name: string;
-  types: PokemonTypes[];
-  sprites: PokemonImage;
-}
-
 export const PokemonList = () => {
   const [listLimit, setListLimit] = useState(12);
-  const [pokemons, setPokemons] = useState<PokemonItem[]>([]);
+  const [pokemons, setPokemons] = useState<Pokemon[]>([]);
 
   console.log("listLimit", listLimit);
 
@@ -45,7 +25,7 @@ export const PokemonList = () => {
     setPokemons(currentPokemons);
   };
 
-  const getPokemons = async (arr: PokemonsList[]): Promise<PokemonItem[]> => {
+  const getPokemons = async (arr: PokemonsList[]): Promise<Pokemon[]> => {
     const newArr = await Promise.all(
       arr.map(async (pokemon) => {
         const res = await fetch(pokemon.url);
@@ -65,7 +45,9 @@ export const PokemonList = () => {
     <div className="pokemons-list">
       <div className="pokemons-list__pokemons">
         {pokemons.map((pokemon) => (
-          <Pokemon
+          <PokemonCard
+            key={pokemon.id}
+            id={pokemon.id}
             name={pokemon.name}
             img={pokemon.sprites.front_default}
             types={pokemon.types}

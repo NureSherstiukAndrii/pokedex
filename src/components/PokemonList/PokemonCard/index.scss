@@ -21,5 +21,11 @@
     width: 100%;
     display: flex;
     gap: 10px;
+    margin-top: 10px;
+
+    .pokemon-type {
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
   }
 }
