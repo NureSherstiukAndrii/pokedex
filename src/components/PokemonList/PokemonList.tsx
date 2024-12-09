@@ -6,11 +6,15 @@ import { API_URL } from "../../api/urls";
 
 import "./index.scss";
 
-export const PokemonList = () => {
+interface PokemonListProps {
+  handleChangeSelectedPokemon: (id: number) => void;
+}
+
+export const PokemonList: React.FC<PokemonListProps> = ({
+  handleChangeSelectedPokemon,
+}) => {
   const [listLimit, setListLimit] = useState(12);
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
-
-  console.log("listLimit", listLimit);
 
   useEffect(() => {
     getPokemonsList();
@@ -48,6 +52,7 @@ export const PokemonList = () => {
           <PokemonCard
             key={pokemon.id}
             id={pokemon.id}
+            handleChangeSelectedPokemon={handleChangeSelectedPokemon}
             name={pokemon.name}
             img={pokemon.sprites.front_default}
             types={pokemon.types}

@@ -1,4 +1,8 @@
 .pokemon-widget {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
   position: sticky;
   top: 30px;
   align-self: flex-start;
@@ -6,4 +10,17 @@
   border: 1px solid;
   padding: 20px;
   height: 600px;
+
+  &__image {
+    width: 300px;
+  }
+
+  &__title {
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .pokemon-stats {
+    width: 100%;
+  }
 }
