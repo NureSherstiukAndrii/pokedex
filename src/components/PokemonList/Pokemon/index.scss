@@ -1,8 +1,25 @@
 .pokemon-item {
   display: flex;
   flex-direction: column;
-  padding: 10px;
+  padding: 10px 10px 30px 10px;
   border: 2px solid;
   width: 250px;
-  height: 300px;
+  flex-grow: 1;
+  align-items: center;
+
+  &__image {
+    width: 200px;
+    margin-bottom: 20px;
+  }
+
+  &__name {
+    font-size: 22px;
+    font-weight: bold;
+  }
+
+  &__types {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+  }
 }

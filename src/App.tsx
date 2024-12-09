@@ -1,12 +1,16 @@
-import { PokemonList } from "./components/PokemonList/PokemonList";
+import { PokemonList, PokemonWidget } from "./components";
 
 import "./styles/global.scss";
 
 const App = () => {
   return (
-    <>
-      <PokemonList />
-    </>
+    <div className="page-wrapper">
+      <h1 className="page-wrapper__title">Pokedex</h1>
+      <div className="main-wrapper">
+        <PokemonList />
+        <PokemonWidget />
+      </div>
+    </div>
   );
 };
 
