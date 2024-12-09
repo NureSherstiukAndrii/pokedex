@@ -1,5 +1,13 @@
+import { PokemonList } from "./components/PokemonList/PokemonList";
+
+import "./styles/global.scss";
+
 const App = () => {
-  return <div>test</div>;
+  return (
+    <>
+      <PokemonList />
+    </>
+  );
 };
 
 export default App;
