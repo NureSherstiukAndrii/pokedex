@@ -1,6 +1,5 @@
-import { PokemonDetails } from "../../types";
-import { PokemonStats } from "../../types/PokemonStats";
-import { capitalizeFirstLetter } from "../../utils/formatters/capitalizeFirstLetter";
+import { PokemonDetails, PokemonStats } from "@/types";
+import { capitalizeFirstLetter, addZerosToNum } from "@/utils/formatters";
 
 import "./index.scss";
 
@@ -24,7 +23,7 @@ export const PokemonWidget: React.FC<PokemonWidgetProps> = ({
   };
 
   if (!selectedPokemon) {
-    return <div className="pokemon-widget">No Pokémon selected</div>;
+    return <div>Info not found about this pokemon</div>;
   }
 
   return (
@@ -35,7 +34,8 @@ export const PokemonWidget: React.FC<PokemonWidgetProps> = ({
         alt={`${selectedPokemon.name}`}
       />
       <h2 className="pokemon-widget__title">
-        {capitalizeFirstLetter(selectedPokemon.name)} #{selectedPokemon.order}
+        {capitalizeFirstLetter(selectedPokemon.name)} #
+        {addZerosToNum(selectedPokemon.order)}
       </h2>
       <div className="pokemon-stats">
         <div className="pokemon-stat">

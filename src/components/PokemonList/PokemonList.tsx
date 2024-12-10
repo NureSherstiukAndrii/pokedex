@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
 
 import { PokemonCard } from "./PokemonCard/PokemonCard";
-import { MainBackData, PokemonsList, Pokemon } from "../../types";
-import { API_URL } from "../../api/urls";
+import { MainBackData, Pokemon } from "@/types";
+import { API_URL } from "@/api/urls";
+import { getPokemons } from "@/api/queries";
 
 import "./index.scss";
 
 interface PokemonListProps {
   handleChangeSelectedPokemon: (id: number) => void;
+  handleWidgetOpen: () => void;
 }
 
 export const PokemonList: React.FC<PokemonListProps> = ({
   handleChangeSelectedPokemon,
+  handleWidgetOpen,
 }) => {
   const [listLimit, setListLimit] = useState(12);
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
@@ -29,18 +32,6 @@ export const PokemonList: React.FC<PokemonListProps> = ({
     setPokemons(currentPokemons);
   };
 
-  const getPokemons = async (arr: PokemonsList[]): Promise<Pokemon[]> => {
-    const newArr = await Promise.all(
-      arr.map(async (pokemon) => {
-        const res = await fetch(pokemon.url);
-        const pokemonWithDetails = await res.json();
-        return pokemonWithDetails;
-      })
-    );
-
-    return newArr;
-  };
-
   const handleAddLimit = () => {
     setListLimit((prev) => prev + 12);
   };
@@ -53,6 +44,7 @@ export const PokemonList: React.FC<PokemonListProps> = ({
             key={pokemon.id}
             id={pokemon.id}
             handleChangeSelectedPokemon={handleChangeSelectedPokemon}
+            handleWidgetOpen={handleWidgetOpen}
             name={pokemon.name}
             img={pokemon.sprites.front_default}
             types={pokemon.types}
