@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from "react";
 
 import { PokemonCard } from "./PokemonCard/PokemonCard";
+import { ConfirmModal } from "./ConfirmModal/ConfirmModal";
 import { MainBackData, Pokemon } from "@/types";
 import { API_URL } from "@/api/urls";
 import { getPokemons } from "@/api/queries";
@@ -23,6 +24,7 @@ export const PokemonList: FC<PokemonListProps> = ({
   const [listLimit, setListLimit] = useState(12);
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   const [isListLoading, setIsListLoading] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
     getPokemonsList();
@@ -69,29 +71,49 @@ export const PokemonList: FC<PokemonListProps> = ({
     }
   };
 
-  return (
-    <div className="pokemons-list">
-      <div className="pokemons-list__pokemons">
-        {pokemons.map((pokemon) => (
-          <PokemonCard
-            key={pokemon.id}
-            id={pokemon.id}
-            handleChangeSelectedPokemon={handleChangeSelectedPokemon}
-            handleWidgetOpen={handleWidgetOpen}
-            name={pokemon.name}
-            img={pokemon.sprites.front_default}
-            types={pokemon.types}
-          />
-        ))}
-      </div>
+  const handleModalView = () => {
+    setIsModalVisible((prev) => !prev);
+  };
 
-      <button
-        onClick={handleAddLimit}
-        className="load-more"
-        disabled={isListLoading}
-      >
-        {isListLoading ? "Loading..." : "Load More"}
-      </button>
-    </div>
+  const handleLoadMore = () => {
+    if (appliedFilters === undefined) {
+      handleAddLimit();
+    } else {
+      handleModalView();
+    }
+  };
+
+  return (
+    <>
+      {isModalVisible && (
+        <ConfirmModal
+          handleAddLimit={handleAddLimit}
+          handleModalView={handleModalView}
+        />
+      )}
+      <div className="pokemons-list">
+        <div className="pokemons-list__pokemons">
+          {pokemons.map((pokemon) => (
+            <PokemonCard
+              key={pokemon.id}
+              id={pokemon.id}
+              handleChangeSelectedPokemon={handleChangeSelectedPokemon}
+              handleWidgetOpen={handleWidgetOpen}
+              name={pokemon.name}
+              img={pokemon.sprites.front_default}
+              types={pokemon.types}
+            />
+          ))}
+        </div>
+
+        <button
+          onClick={handleLoadMore}
+          className="load-more"
+          disabled={isListLoading}
+        >
+          {isListLoading ? "Loading..." : "Load More"}
+        </button>
+      </div>
+    </>
   );
 };

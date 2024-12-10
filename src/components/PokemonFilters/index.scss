@@ -41,4 +41,18 @@
       opacity: 0.7;
     }
   }
+
+  &__reset {
+    border: 0;
+    border-radius: 15px;
+    cursor: pointer;
+    padding: 10px 30px;
+    color: white;
+    background-color: lightgray;
+    transition: opacity 0.3s;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
 }

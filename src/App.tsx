@@ -55,6 +55,10 @@ const App = () => {
     setAppliedFilters(filters);
   };
 
+  const resetFilters = () => {
+    setAppliedFilters(undefined);
+  };
+
   return (
     <div className="page-wrapper">
       <ArrowToTop />
@@ -62,6 +66,7 @@ const App = () => {
       <PokemonFilters
         filters={filterList}
         onApplyFilters={handleChangeFilters}
+        resetFilters={resetFilters}
       />
       <div className="main-wrapper">
         <PokemonList

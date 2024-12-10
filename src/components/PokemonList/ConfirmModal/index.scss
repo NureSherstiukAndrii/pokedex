@@ -1,0 +1,40 @@
+.confirm-modal {
+  position: fixed;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  background-color: lightgray;
+  width: 90%;
+  padding: 30px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  text-align: center;
+
+  @media (min-width: 768px) {
+    width: 600px;
+  }
+
+  &__title {
+    font-size: 36px;
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 20px;
+
+    .modal-button {
+      border: 0;
+      padding: 10px 25px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: opacity 0.3s;
+
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
+}
