@@ -17,7 +17,7 @@ export const PokemonWidget: React.FC<PokemonWidgetProps> = ({
   isLoading,
 }) => {
   if (!selectedPokemon) {
-    return <div>Info not found about this pokemon</div>;
+    return <div>Loading...</div>;
   }
 
   return (
