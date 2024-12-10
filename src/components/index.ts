@@ -1,2 +1,3 @@
-export { PokemonList } from "../components/PokemonList/PokemonList";
-export { PokemonWidget } from "../components/PokemonWidget/PokemonWidget";
+export { PokemonList } from "./PokemonList/PokemonList";
+export { PokemonWidget } from "./PokemonWidget/PokemonWidget";
+export { PokemonFilters } from "./PokemonFilters/PokemonFilters";

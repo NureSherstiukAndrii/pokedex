@@ -6,6 +6,7 @@ export const getPokemon = async (
 ): Promise<PokemonDetails | undefined> => {
   try {
     const res = await fetch(`${API_URL}/pokemon/${id}`);
+    //add types
     const data = await res.json();
 
     return data;

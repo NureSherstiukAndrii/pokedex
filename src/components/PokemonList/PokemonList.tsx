@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 import { PokemonCard } from "./PokemonCard/PokemonCard";
 import { MainBackData, Pokemon } from "@/types";
@@ -10,11 +10,15 @@ import "./index.scss";
 interface PokemonListProps {
   handleChangeSelectedPokemon: (id: number) => void;
   handleWidgetOpen: () => void;
+  getFilters: (currentPokemons: Pokemon[]) => void;
+  appliedFilters: string[] | undefined;
 }
 
-export const PokemonList: React.FC<PokemonListProps> = ({
+export const PokemonList: FC<PokemonListProps> = ({
   handleChangeSelectedPokemon,
   handleWidgetOpen,
+  getFilters,
+  appliedFilters,
 }) => {
   const [listLimit, setListLimit] = useState(12);
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
@@ -22,7 +26,19 @@ export const PokemonList: React.FC<PokemonListProps> = ({
 
   useEffect(() => {
     getPokemonsList();
-  }, [listLimit]);
+  }, [listLimit, appliedFilters]);
+
+  const filterPokemons = (
+    pokemons: Pokemon[],
+    filters: string[]
+  ): Pokemon[] => {
+    return pokemons.filter((pokemon) => {
+      const { types } = pokemon;
+      const pokemonTypes = types.map((elem) => elem.type.name);
+
+      return pokemonTypes.some((type) => filters.includes(type));
+    });
+  };
 
   const getPokemonsList = async (): Promise<void> => {
     setIsListLoading(true);
@@ -30,11 +46,18 @@ export const PokemonList: React.FC<PokemonListProps> = ({
       const res = await fetch(`${API_URL}/pokemon/?limit=${listLimit}`);
       const data: MainBackData = await res.json();
 
-      const currentPokemons = await getPokemons(data.results);
+      const initialPokemons = await getPokemons(data.results);
 
-      setPokemons(currentPokemons);
+      let filteredList = [...initialPokemons];
+
+      if (appliedFilters !== undefined && appliedFilters.length > 0) {
+        filteredList = filterPokemons(initialPokemons, appliedFilters);
+      }
+
+      setPokemons(filteredList);
+      getFilters(initialPokemons);
     } catch (error) {
-      console.error("Error fetching Pokémon list:", error);
+      console.error("Error fetching Pokemon list:", error);
     } finally {
       setIsListLoading(false);
     }

@@ -24,7 +24,7 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({
   handleWidgetOpen,
 }) => {
   const scrollOptions = {
-    duration: 500,
+    duration: 1000,
     smooth: true,
   };
 

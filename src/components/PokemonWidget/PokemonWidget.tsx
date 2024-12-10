@@ -46,10 +46,10 @@ export const PokemonWidget: React.FC<PokemonWidgetProps> = ({
                 ))}
               </td>
             </tr>
-            {selectedPokemon.stats.map((stat) => (
-              <tr key={stat.stat.name}>
-                <td>{capitalizeFirstLetter(formatStatName(stat.stat.name))}</td>
-                <td>{stat.base_stat}</td>
+            {selectedPokemon.stats.map(({ stat, base_stat }) => (
+              <tr key={stat.name}>
+                <td>{capitalizeFirstLetter(formatStatName(stat.name))}</td>
+                <td>{base_stat}</td>
               </tr>
             ))}
             <tr>
