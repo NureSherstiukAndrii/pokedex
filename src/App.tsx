@@ -21,14 +21,15 @@ const App = () => {
   const [appliedFilters, setAppliedFilters] = useState<string[] | undefined>();
 
   const handleChangeSelectedPokemon = async (id: number): Promise<void> => {
+    setIsWidgetLoading(true);
+
     try {
       const selectedPokemon = await getPokemon(id);
-
-      setIsWidgetLoading(true);
       setSelectedPokemon(selectedPokemon);
-      setIsWidgetLoading(false);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsWidgetLoading(false);
     }
   };
 

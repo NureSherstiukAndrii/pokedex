@@ -1,3 +1,4 @@
+import { Loader } from "../Loader/Loader";
 import { PokemonDetails } from "@/types";
 import {
   capitalizeFirstLetter,
@@ -17,13 +18,13 @@ export const PokemonWidget: React.FC<PokemonWidgetProps> = ({
   isLoading,
 }) => {
   if (!selectedPokemon) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   return (
     <div className="pokemon-widget">
       {isLoading ? (
-        <div>Loading...</div>
+        <Loader />
       ) : (
         <>
           <img

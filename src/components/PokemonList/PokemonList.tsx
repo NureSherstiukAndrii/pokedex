@@ -5,6 +5,7 @@ import { ConfirmModal } from "./ConfirmModal/ConfirmModal";
 import { MainBackData, Pokemon } from "@/types";
 import { API_URL } from "@/api/urls";
 import { getPokemons } from "@/api/queries";
+import { Loader } from "../Loader/Loader";
 
 import "./index.scss";
 
@@ -23,7 +24,7 @@ export const PokemonList: FC<PokemonListProps> = ({
 }) => {
   const [listLimit, setListLimit] = useState(12);
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
-  const [isListLoading, setIsListLoading] = useState(false);
+  const [isListLoading, setIsListLoading] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
@@ -83,6 +84,10 @@ export const PokemonList: FC<PokemonListProps> = ({
     }
   };
 
+  if (isListLoading && pokemons.length === 0) {
+    return <Loader />;
+  }
+
   return (
     <>
       {isModalVisible && (
@@ -91,6 +96,7 @@ export const PokemonList: FC<PokemonListProps> = ({
           handleModalView={handleModalView}
         />
       )}
+
       <div className="pokemons-list">
         <div className="pokemons-list__pokemons">
           {pokemons.map((pokemon) => (
