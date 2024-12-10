@@ -1,66 +1,68 @@
-import { PokemonDetails, PokemonStats } from "@/types";
-import { capitalizeFirstLetter, addZerosToNum } from "@/utils/formatters";
+import { PokemonDetails } from "@/types";
+import {
+  capitalizeFirstLetter,
+  addZerosToNum,
+  formatStatName,
+} from "@/utils/formatters";
 
 import "./index.scss";
 
 interface PokemonWidgetProps {
   selectedPokemon: PokemonDetails | undefined;
+  isLoading: boolean;
 }
 
 export const PokemonWidget: React.FC<PokemonWidgetProps> = ({
   selectedPokemon,
+  isLoading,
 }) => {
-  const formatStat = (statistic: PokemonStats) => {
-    const { base_stat, stat } = statistic;
-    const statName = stat.name;
-
-    return (
-      <>
-        <span>{capitalizeFirstLetter(statName)}</span>
-        <span>{base_stat}</span>
-      </>
-    );
-  };
-
   if (!selectedPokemon) {
     return <div>Info not found about this pokemon</div>;
   }
 
   return (
     <div className="pokemon-widget">
-      <img
-        src={selectedPokemon.sprites.front_default}
-        className="pokemon-widget__image"
-        alt={`${selectedPokemon.name}`}
-      />
-      <h2 className="pokemon-widget__title">
-        {capitalizeFirstLetter(selectedPokemon.name)} #
-        {addZerosToNum(selectedPokemon.order)}
-      </h2>
-      <div className="pokemon-stats">
-        <div className="pokemon-stat">
-          <span>Type</span>
-          <div>
-            {selectedPokemon.types.map(({ type }) => (
-              <span key={type.name}>{capitalizeFirstLetter(type.name)}</span>
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <>
+          <img
+            src={selectedPokemon.sprites.front_default}
+            className="pokemon-widget__image"
+            alt={`${selectedPokemon.name}`}
+          />
+          <h2 className="pokemon-widget__title">
+            {capitalizeFirstLetter(selectedPokemon.name)} #
+            {addZerosToNum(selectedPokemon.order)}
+          </h2>
+          <table className="pokemon-stats">
+            <tr>
+              <td>Type</td>
+              <td className="pokemon-types">
+                {selectedPokemon.types.map(({ type }) => (
+                  <span key={type.name}>
+                    {capitalizeFirstLetter(type.name)}
+                  </span>
+                ))}
+              </td>
+            </tr>
+            {selectedPokemon.stats.map((stat) => (
+              <tr key={stat.stat.name}>
+                <td>{capitalizeFirstLetter(formatStatName(stat.stat.name))}</td>
+                <td>{stat.base_stat}</td>
+              </tr>
             ))}
-          </div>
-        </div>
-
-        {selectedPokemon.stats.map((stat) => (
-          <div className="pokemon-stat" key={stat.stat.name}>
-            {formatStat(stat)}
-          </div>
-        ))}
-        <div className="pokemon-stat">
-          <span>Weight</span>
-          <span>{selectedPokemon.weight}</span>
-        </div>
-        <div className="pokemon-stat">
-          <span>Total moves</span>
-          <span>{selectedPokemon.moves.length}</span>
-        </div>
-      </div>
+            <tr>
+              <td>Weight</td>
+              <td>{selectedPokemon.weight}</td>
+            </tr>
+            <tr>
+              <td>Total moves</td>
+              <td>{selectedPokemon.moves.length}</td>
+            </tr>
+          </table>
+        </>
+      )}
     </div>
   );
 };

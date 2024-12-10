@@ -1,3 +1,5 @@
+import { animateScroll } from "react-scroll";
+
 import { PokemonTypes } from "@/types";
 import { capitalizeFirstLetter } from "@/utils/formatters";
 import { typeColors } from "@/utils/typeColors";
@@ -21,16 +23,25 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({
   types,
   handleWidgetOpen,
 }) => {
+  const scrollOptions = {
+    duration: 500,
+    smooth: true,
+  };
+
   const handleCardClick = () => {
     handleChangeSelectedPokemon(id);
     handleWidgetOpen();
+
+    if (window.innerWidth < 768) {
+      animateScroll.scrollToTop(scrollOptions);
+    }
   };
 
   return (
-    <div className="pokemon-item" onClick={handleCardClick}>
-      <img src={img} className="pokemon-item__image" alt="pokemon" />
-      <span className="pokemon-item__name">{capitalizeFirstLetter(name)}</span>
-      <div className="pokemon-item__types">
+    <div className="pokemon-card" onClick={handleCardClick}>
+      <img src={img} className="pokemon-card__image" alt="pokemon" />
+      <span className="pokemon-card__name">{capitalizeFirstLetter(name)}</span>
+      <div className="pokemon-card__types">
         {types.map(({ type }) => (
           <span
             key={type.name}

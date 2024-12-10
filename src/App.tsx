@@ -11,10 +11,13 @@ const App = () => {
     PokemonDetails | undefined
   >(undefined);
   const [isWidgetVisible, setIsWidgetVisible] = useState(false);
+  const [isWidgetLoading, setIsWidgetLoading] = useState(false);
 
   const handleChangeSelectedPokemon = async (id: number): Promise<void> => {
+    setIsWidgetLoading(true);
     const selectedPokemon = await getPokemon(id);
     setSelectedPokemon(selectedPokemon);
+    setIsWidgetLoading(false);
   };
 
   const handleWidgetOpen = () => {
@@ -29,7 +32,12 @@ const App = () => {
           handleChangeSelectedPokemon={handleChangeSelectedPokemon}
           handleWidgetOpen={handleWidgetOpen}
         />
-        {isWidgetVisible && <PokemonWidget selectedPokemon={selectedPokemon} />}
+        {isWidgetVisible && (
+          <PokemonWidget
+            isLoading={isWidgetLoading}
+            selectedPokemon={selectedPokemon}
+          />
+        )}
       </div>
     </div>
   );

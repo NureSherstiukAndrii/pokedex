@@ -3,24 +3,41 @@
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  position: sticky;
-  top: 30px;
   align-self: flex-start;
-  width: 400px;
   border: 1px solid;
   padding: 20px;
-  height: 600px;
+  width: 100%;
+
+  @media (min-width: 768px) {
+    width: 400px;
+    position: sticky;
+    top: 30px;
+  }
 
   &__image {
-    width: 300px;
+    width: 200px;
   }
 
   &__title {
     font-size: 28px;
     font-weight: bold;
+    text-align: center;
   }
 
   .pokemon-stats {
+    border-collapse: collapse;
     width: 100%;
+
+    td {
+      border: 1px solid;
+      padding: 5px 0;
+      text-align: center;
+    }
+
+    .pokemon-types {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
   }
 }

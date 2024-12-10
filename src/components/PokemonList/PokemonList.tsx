@@ -18,22 +18,32 @@ export const PokemonList: React.FC<PokemonListProps> = ({
 }) => {
   const [listLimit, setListLimit] = useState(12);
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
+  const [isListLoading, setIsListLoading] = useState(false);
 
   useEffect(() => {
     getPokemonsList();
   }, [listLimit]);
 
   const getPokemonsList = async (): Promise<void> => {
-    const res = await fetch(`${API_URL}/pokemon/?limit=${listLimit}`);
-    const data: MainBackData = await res.json();
+    setIsListLoading(true);
+    try {
+      const res = await fetch(`${API_URL}/pokemon/?limit=${listLimit}`);
+      const data: MainBackData = await res.json();
 
-    const currentPokemons = await getPokemons(data.results);
+      const currentPokemons = await getPokemons(data.results);
 
-    setPokemons(currentPokemons);
+      setPokemons(currentPokemons);
+    } catch (error) {
+      console.error("Error fetching Pokémon list:", error);
+    } finally {
+      setIsListLoading(false);
+    }
   };
 
   const handleAddLimit = () => {
-    setListLimit((prev) => prev + 12);
+    if (!isListLoading) {
+      setListLimit((prev) => prev + 12);
+    }
   };
 
   return (
@@ -52,8 +62,12 @@ export const PokemonList: React.FC<PokemonListProps> = ({
         ))}
       </div>
 
-      <button onClick={handleAddLimit} className="load-more">
-        Load More
+      <button
+        onClick={handleAddLimit}
+        className="load-more"
+        disabled={isListLoading}
+      >
+        {isListLoading ? "Loading..." : "Load More"}
       </button>
     </div>
   );
