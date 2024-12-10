@@ -1,6 +1,11 @@
 import { useState } from "react";
 
-import { PokemonList, PokemonWidget, PokemonFilters } from "./components";
+import {
+  PokemonList,
+  PokemonWidget,
+  PokemonFilters,
+  ArrowToTop,
+} from "./components";
 import { Pokemon, PokemonDetails, PokemonTypes } from "./types";
 import { getPokemon } from "./api/queries";
 
@@ -52,6 +57,7 @@ const App = () => {
 
   return (
     <div className="page-wrapper">
+      <ArrowToTop />
       <h1 className="page-wrapper__title">Pokedex</h1>
       <PokemonFilters
         filters={filterList}

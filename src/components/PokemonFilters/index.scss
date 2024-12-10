@@ -1,6 +1,44 @@
-.filters {
+.filters-form {
   display: flex;
   width: 100%;
   gap: 20px;
-  flex-wrap: wrap;
+  align-items: center;
+  flex-direction: column;
+
+  &__title {
+    font-size: 26px;
+  }
+
+  &__types {
+    display: flex;
+    width: 100%;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    .filters-type {
+      display: flex;
+      gap: 5px;
+
+      &__checkbox {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+      }
+    }
+  }
+
+  &__submit {
+    border: 0;
+    border-radius: 15px;
+    cursor: pointer;
+    padding: 10px 30px;
+    color: white;
+    background-color: rgba(75, 75, 255, 0.929);
+    transition: opacity 0.3s;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
 }
