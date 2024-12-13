@@ -19,7 +19,7 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
       <span className="confirm-modal__title">Warning</span>
 
       <span className="confirm-modal__text">
-        Pokemons will be loaded with the filters you selected
+        The filters you selected will be reset.
       </span>
 
       <div className="confirm-modal__buttons">

@@ -11,11 +11,13 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.5.0",
     "final-form": "^4.20.10",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-final-form": "^6.5.9",
     "react-loader-spinner": "^6.1.6",
+    "react-redux": "^9.2.0",
     "react-scroll": "^1.9.0"
   },
   "devDependencies": {
