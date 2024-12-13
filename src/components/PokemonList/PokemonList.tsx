@@ -1,30 +1,23 @@
-import { FC, useEffect, useState } from "react";
-import { loadPokemons } from "@/store/pokemons/actions";
+import { useEffect, useState } from "react";
 
+import { loadPokemons } from "@/store/pokemons/actions";
 import { useAppSelector, useAppDispatch } from "@/hooks";
 import { PokemonCard } from "./PokemonCard/PokemonCard";
 import { ConfirmModal } from "./ConfirmModal/ConfirmModal";
 import { Loader } from "../Loader/Loader";
+import { DataStatus } from "@/enums/DataStatus";
 
 import "./index.scss";
 
-interface PokemonListProps {
-  handleChangeSelectedPokemon: (id: number) => void;
-  handleWidgetOpen: () => void;
-}
-
-export const PokemonList: FC<PokemonListProps> = ({
-  handleChangeSelectedPokemon,
-  handleWidgetOpen,
-}) => {
+export const PokemonList = () => {
   const [listLimit, setListLimit] = useState(12);
-  // const [isListLoading, setIsListLoading] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const dispatch = useAppDispatch();
   const pokemons = useAppSelector((state) => state.pokemons.filteredPokemons);
   const selectedFilters = useAppSelector(
     (state) => state.pokemons.selectedFilters
   );
+  const status = useAppSelector((state) => state.pokemons.listStatus);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(loadPokemons(listLimit));
@@ -46,7 +39,7 @@ export const PokemonList: FC<PokemonListProps> = ({
     }
   };
 
-  if (pokemons.length === 0) {
+  if (status === DataStatus.PENDING) {
     return <Loader />;
   }
 
@@ -65,8 +58,6 @@ export const PokemonList: FC<PokemonListProps> = ({
             <PokemonCard
               key={pokemon.id}
               id={pokemon.id}
-              handleChangeSelectedPokemon={handleChangeSelectedPokemon}
-              handleWidgetOpen={handleWidgetOpen}
               name={pokemon.name}
               img={pokemon.sprites.front_default}
               types={pokemon.types}

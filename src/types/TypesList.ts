@@ -1,6 +1,6 @@
 import { PokemonTypesDetail } from "./PokemonTypesDetail";
 
-export interface Types {
+export interface TypesList {
   count: number;
   next: string | null;
   previous: string | null;
