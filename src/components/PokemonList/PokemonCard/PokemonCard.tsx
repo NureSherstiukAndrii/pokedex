@@ -1,10 +1,10 @@
 import { animateScroll } from "react-scroll";
 
 import { useAppDispatch } from "@/hooks";
-import { loadPokemon } from "@/store/pokemons/actions";
 import { PokemonTypes } from "@/types";
 import { capitalizeFirstLetter } from "@/utils/formatters";
 import { typeColors } from "@/utils/typeColors";
+import { actions } from "@/store/pokemons/pokemonsSlice";
 
 import "./index.scss";
 
@@ -23,15 +23,16 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({
 }) => {
   const dispatch = useAppDispatch();
 
+  const tabletBreakpoint = 768;
   const scrollOptions = {
     duration: 1000,
     smooth: true,
   };
 
   const handleCardClick = () => {
-    dispatch(loadPokemon(id));
+    dispatch(actions.setCurrentPokemonId(id));
 
-    if (window.innerWidth < 768) {
+    if (window.innerWidth < tabletBreakpoint) {
       animateScroll.scrollToTop(scrollOptions);
     }
   };

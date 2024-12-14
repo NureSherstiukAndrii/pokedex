@@ -10,7 +10,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  base: "/pokedex/",
+  // base: "/pokedex/",
   build: {
     outDir: "dist",
   },

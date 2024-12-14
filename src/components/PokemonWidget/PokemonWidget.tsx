@@ -1,23 +1,15 @@
-import { Loader } from "../Loader/Loader";
 import { useAppSelector } from "@/hooks";
 import {
   capitalizeFirstLetter,
   addZerosToNum,
   formatStatName,
 } from "@/utils/formatters";
-import { DataStatus } from "@/enums/DataStatus";
+import { selectCurrentPokemon } from "@/store/pokemons/selectors";
 
 import "./index.scss";
 
 export const PokemonWidget = () => {
-  const pokemon = useAppSelector((state) => state.pokemons.selectedPokemon);
-  const selectedPokemonStatus = useAppSelector(
-    (state) => state.pokemons.selectedPokemonStatus
-  );
-
-  if (selectedPokemonStatus === DataStatus.PENDING) {
-    return <Loader />;
-  }
+  const pokemon = useAppSelector(selectCurrentPokemon);
 
   if (!pokemon) {
     return null;

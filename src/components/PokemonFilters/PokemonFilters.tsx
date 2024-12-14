@@ -4,6 +4,7 @@ import { Field, Form } from "react-final-form";
 import { useAppSelector, useAppDispatch } from "@/hooks";
 import { capitalizeFirstLetter } from "@/utils/formatters";
 import { actions } from "@/store/pokemons/pokemonsSlice";
+import { selectPokemonTypes } from "@/store/pokemons/selectors";
 
 import "./index.scss";
 
@@ -13,7 +14,7 @@ interface FormData {
 
 export const PokemonFilters = () => {
   const dispatch = useAppDispatch();
-  const pokemonTypes = useAppSelector((state) => state.pokemons.pokemonTypes);
+  const pokemonTypes = useAppSelector(selectPokemonTypes);
 
   useEffect(() => {
     dispatch(actions.loadTypes());
@@ -24,7 +25,6 @@ export const PokemonFilters = () => {
       dispatch(actions.clearFilters());
     } else {
       dispatch(actions.setFilters(values.filters));
-      dispatch(actions.setFilteredPokemons());
     }
   };
 

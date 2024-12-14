@@ -1,26 +1,25 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { loadPokemon, loadPokemons, loadTypes } from "./actions";
-import { Pokemon, PokemonDetails } from "@/types";
+
+import { loadPokemons, loadTypes } from "./actions";
+import { PokemonDetails } from "@/types";
 import { DataStatus } from "@/enums/DataStatus";
 
-type State = {
-  pokemons: Pokemon[];
-  filteredPokemons: Pokemon[];
+export type State = {
+  pokemons: PokemonDetails[];
   selectedPokemon: PokemonDetails | null;
+  currentPokemonId: number | null;
   pokemonTypes: string[];
   selectedFilters: string[];
   listStatus: DataStatus;
-  selectedPokemonStatus: DataStatus;
 };
 
 const initialState: State = {
   pokemons: [],
-  filteredPokemons: [],
   selectedPokemon: null,
+  currentPokemonId: null,
   pokemonTypes: [],
   selectedFilters: [],
   listStatus: DataStatus.IDLE,
-  selectedPokemonStatus: DataStatus.IDLE,
 };
 
 const { reducer, actions, name } = createSlice({
@@ -32,17 +31,9 @@ const { reducer, actions, name } = createSlice({
     },
     clearFilters(state) {
       state.selectedFilters = [];
-      state.filteredPokemons = state.pokemons;
     },
-    setFilteredPokemons(state) {
-      state.filteredPokemons = state.pokemons.filter((pokemon) => {
-        const { types } = pokemon;
-        const pokemonTypes = types.map((elem) => elem.type.name);
-
-        return pokemonTypes.some((type) =>
-          state.selectedFilters.includes(type)
-        );
-      });
+    setCurrentPokemonId(state, action: PayloadAction<number>) {
+      state.currentPokemonId = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -51,18 +42,10 @@ const { reducer, actions, name } = createSlice({
     });
     builder.addCase(loadPokemons.fulfilled, (state, action) => {
       state.pokemons = action.payload;
-      state.filteredPokemons = action.payload;
       state.listStatus = DataStatus.SUCCESS;
     });
     builder.addCase(loadTypes.fulfilled, (state, action) => {
       state.pokemonTypes = action.payload;
-    });
-    builder.addCase(loadPokemon.pending, (state) => {
-      state.selectedPokemonStatus = DataStatus.PENDING;
-    });
-    builder.addCase(loadPokemon.fulfilled, (state, action) => {
-      state.selectedPokemon = action.payload;
-      state.selectedPokemonStatus = DataStatus.SUCCESS;
     });
   },
 });

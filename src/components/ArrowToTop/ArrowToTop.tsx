@@ -7,9 +7,10 @@ import "./index.scss";
 
 export const ArrowToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const heightForDisplayArrow = 400;
 
   const toggleVisibility = () => {
-    if (window.scrollY > 400) {
+    if (window.scrollY > heightForDisplayArrow) {
       setIsVisible(true);
     } else {
       setIsVisible(false);
