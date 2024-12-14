@@ -39,7 +39,7 @@ export const PokemonList = () => {
     }
   };
 
-  if (status === DataStatus.PENDING) {
+  if (status === DataStatus.PENDING && pokemons.length === 0) {
     return <Loader />;
   }
 
@@ -65,9 +65,13 @@ export const PokemonList = () => {
           ))}
         </div>
 
-        <button onClick={handleLoadMore} className="load-more">
-          Load More
-        </button>
+        {status === DataStatus.SUCCESS && (
+          <button onClick={handleLoadMore} className="load-more">
+            Load More
+          </button>
+        )}
+
+        {status === DataStatus.PENDING && pokemons.length > 0 && <Loader />}
       </div>
     </>
   );

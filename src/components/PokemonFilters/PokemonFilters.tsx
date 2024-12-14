@@ -3,7 +3,6 @@ import { Field, Form } from "react-final-form";
 
 import { useAppSelector, useAppDispatch } from "@/hooks";
 import { capitalizeFirstLetter } from "@/utils/formatters";
-import { loadTypes } from "@/store/pokemons/actions";
 import { actions } from "@/store/pokemons/pokemonsSlice";
 
 import "./index.scss";
@@ -17,16 +16,16 @@ export const PokemonFilters = () => {
   const pokemonTypes = useAppSelector((state) => state.pokemons.pokemonTypes);
 
   useEffect(() => {
-    dispatch(loadTypes());
+    dispatch(actions.loadTypes());
   }, []);
 
   const onSubmit = (values: FormData): void => {
-    if (Object.entries(values).length === 0) {
-      return;
+    if (!values.filters || values.filters.length === 0) {
+      dispatch(actions.clearFilters());
+    } else {
+      dispatch(actions.setFilters(values.filters));
+      dispatch(actions.setFilteredPokemons());
     }
-
-    dispatch(actions.setFilters(values.filters));
-    dispatch(actions.setFilteredPokemons());
   };
 
   return (
