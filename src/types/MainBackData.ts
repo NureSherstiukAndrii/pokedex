@@ -2,7 +2,7 @@ import { PokemonsList } from "./PokemonsList";
 
 export interface MainBackData {
   count: number;
-  next: string | null;
-  prev: string | null;
+  next: string;
+  previous: string | null;
   results: PokemonsList[];
 }

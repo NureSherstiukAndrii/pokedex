@@ -16,7 +16,7 @@ import { DataStatus } from "@/enums/DataStatus";
 import "./index.scss";
 
 export const PokemonList = () => {
-  const [listLimit, setListLimit] = useState(12);
+  const [listLimit, setListLimit] = useState(0);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const filteredPokemons = useAppSelector(selectFilteredPokemons);
@@ -26,6 +26,10 @@ export const PokemonList = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    if (selectedFilters?.length > 0) {
+      return;
+    }
+
     dispatch(loadPokemons(listLimit));
   }, [listLimit]);
 

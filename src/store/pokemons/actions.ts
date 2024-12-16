@@ -8,8 +8,9 @@ import { getPokemons } from "@/api/queries";
 const loadPokemons = createAsyncThunk<PokemonDetails[], number>(
   `${name}/load-pokemons`,
   async (limit) => {
-    const res = await fetch(`${API_URL}/pokemon/?limit=${limit}`);
+    const res = await fetch(`${API_URL}/pokemon/?offset=${limit}&limit=12`);
     const data: MainBackData = await res.json();
+
     const pokemons = await getPokemons(data.results);
 
     return pokemons;

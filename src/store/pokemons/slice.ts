@@ -11,6 +11,7 @@ export type State = {
   pokemonTypes: string[];
   selectedFilters: string[];
   listStatus: DataStatus;
+  isFirstListLoad: boolean;
 };
 
 const initialState: State = {
@@ -20,6 +21,7 @@ const initialState: State = {
   pokemonTypes: [],
   selectedFilters: [],
   listStatus: DataStatus.IDLE,
+  isFirstListLoad: true,
 };
 
 const { reducer, actions, name } = createSlice({
@@ -41,7 +43,13 @@ const { reducer, actions, name } = createSlice({
       state.listStatus = DataStatus.PENDING;
     });
     builder.addCase(loadPokemons.fulfilled, (state, action) => {
-      state.pokemons = action.payload;
+      if (state.isFirstListLoad) {
+        state.pokemons = action.payload;
+        state.isFirstListLoad = false;
+      } else {
+        state.pokemons = [...state.pokemons, ...action.payload];
+      }
+
       state.listStatus = DataStatus.SUCCESS;
     });
     builder.addCase(loadTypes.fulfilled, (state, action) => {
